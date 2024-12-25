@@ -1,0 +1,11 @@
+langkah untuk backend
+- aktifkan xampp/laragon
+- masuk ke directory backend
+- jalankan perintah php artisan migrate
+- jalankan perintah php artisan serve
+- ubah data di excel jadi json
+- masuk ke api client : contohnya postman
+- kirim request ke postman dengan :
+   - type requst : post
+   - pilih raw, dan pastekan data yang sudah di ubah ke json
+   - klik request
