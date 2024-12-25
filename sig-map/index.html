@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Informasi Geografis Fasilitas Umum Pekanbaru</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav
+      class="bg-sky-500 text-white shadow-md w-full left-0 right-0 fixed top-0 z-50"
+    >
+      <div class="flex items-center justify-between px-6 sm:px-20 py-4">
+        <h1 class="font-bold text-2xl text-white">GeoPekan</h1>
+         <div class="hidden sm:flex space-x-8">
+          <a href="#home" class="hover:text-sky-200 transition duration-200">Home</a>
+          <a href="#about" class="hover:text-sky-200 transition duration-200">About Us</a>
+          <a href="#services" class="hover:text-sky-200 transition duration-200">Services</a>
+          <a href="#team" class="hover:text-sky-200 transition duration-200">Team</a>
+          <a href="#contact" class="hover:text-sky-200 transition duration-200">Contact</a>
+        </div>
+        <box-icon
+          name="menu"
+          color="white"
+          class="text-white text-3xl sm:hidden"
+          onclick="toggleMenu()"
+        ></box-icon>
+      </div>
+       <div id="mobileMenu" class="sm:hidden bg-sky-500 text-white hidden p-5">
+        <a href="#home" class="block px-4 py-2 hover:bg-sky-600">Home</a>
+        <a href="#about" class="block px-4 py-2 hover:bg-sky-600">About Us</a>
+        <a href="#services" class="block px-4 py-2 hover:bg-sky-600">Services</a>
+        <a href="#team" class="block px-4 py-2 hover:bg-sky-600">Team</a>
+        <a href="#contact" class="block px-4 py-2 hover:bg-sky-600">Contact</a>
+      </div>
+    </nav>
+
+    <section
+      id="home"
+      class="flex flex-col h-screen justify-center items-center text-sky-900 text-center bg-white pt-20"
+    >
+      <div
+        class="flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-10 p-6 sm:p-10"
+      >
+        <div>
+          <img
+            src="img/Navigation-amico.png"
+            alt="Welcome Image"
+            class="max-w-xs sm:max-w-md"
+          />
+        </div>
+        <div class="sm:w-1/2">
+          <h1 class="font-bold text-3xl sm:text-5xl mb-4">
+            Selamat Datang di GeoPekan
+          </h1>
+          <p class="text-lg mb-6">
+            Platform interaktif untuk informasi fasilitas umum di Pekanbaru.
+            Temukan fasilitas umum dengan mudah dan cepat.
+          </p>
+          <a
+            href="map.html"
+            class="px-6 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition duration-200"
+          >
+            Mulai Cari Fasilitas
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="py-20 text-sky-900 bg-gray-50">
+      <div class="max-w-4xl mx-auto text-center px-5">
+        <h2 class="font-bold text-3xl sm:text-4xl mb-6">Tentang Kami</h2>
+        <p class="text-lg mb-6">
+          GeoPekan adalah sistem informasi geografis yang memudahkan masyarakat
+          Pekanbaru untuk menemukan fasilitas umum secara akurat dan terkini.
+        </p>
+        <img
+          src="img/Navigation-pana (1).png"
+          alt="About Us Image"
+          class="w-[500px] mx-auto w-[300px]"
+        />
+      </div>
+    </section>
+
+    <section id="services" class="py-20 text-sky-900">
+      <div class="max-w-5xl mx-auto text-center px-5">
+        <h2 class="font-bold text-3xl sm:text-4xl mb-8">Layanan Kami</h2>
+        <div class="grid sm:grid-cols-3 gap-6">
+          <div class="p-6 bg-white shadow-md rounded-lg">
+            <h3 class="font-semibold text-xl mb-3">Peta Interaktif</h3>
+            <p>
+              Menyediakan peta interaktif dengan informasi lokasi fasilitas
+              umum.
+            </p>
+          </div>
+          <div class="p-6 bg-white shadow-md rounded-lg">
+            <h3 class="font-semibold text-xl mb-3">Kategori Fasilitas</h3>
+            <p>
+              Beragam kategori fasilitas seperti sekolah, rumah sakit, tempat
+              ibadah, dan lainnya.
+            </p>
+          </div>
+          <div class="p-6 bg-white shadow-md rounded-lg">
+            <h3 class="font-semibold text-xl mb-3">Informasi Detail</h3>
+            <p>
+              Detail fasilitas umum, termasuk alamat, kontak, dan waktu
+              operasional.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="py-20 text-sky-900 bg-gray-50">
+      <div class="max-w-4xl mx-auto text-center px-5">
+        <h2 class="font-bold text-3xl sm:text-4xl mb-6">Tim Kami</h2>
+        <p class="text-lg mb-6">
+          Kami adalah tim yang berdedikasi untuk menyediakan informasi yang
+          akurat dan terkini tentang fasilitas umum di Pekanbaru.
+        </p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+          <div class="p-6 bg-white shadow-md rounded-lg">
+            <box-icon type='solid' color="gray" class="h-14 w-14" name='user-circle'></box-icon>
+            <h3 class="font-semibold text-sm sm:text-xl mb-3">Ievan Bryan</h3>
+          </div>
+          <div class="p-6 bg-white shadow-md rounded-lg">
+            <box-icon type='solid' color="gray" class="h-14 w-14" name='user-circle'></box-icon>
+            <h3 class="font-semibold text-sm sm:text-xl mb-3">Daman Huri</h3>
+          </div>
+          <div class="p-6 bg-white shadow-md rounded-lg">
+             <box-icon type='solid' color="gray" class="h-14 w-14" name='user-circle'></box-icon>
+            <h3 class="font-semibold text-sm sm:text-xl mb-3">Alfirmansyah</h3>
+          </div>
+          <div class="p-6 bg-white shadow-md rounded-lg">
+             <box-icon type='solid' color="gray" class="h-14 w-14" name='user-circle'></box-icon>
+            <h3 class="font-semibold text-sm sm:text-xl mb-3">Bimo Rahma Sakti</h3>
+          </div>
+          <div class="p-6 bg-white shadow-md rounded-lg">
+             <box-icon type='solid' color="gray" class="h-14 w-14" name='user-circle'></box-icon>
+            <h3 class="font-semibold text-sm sm:text-xl mb-3">Sri Jamella Ayu</h3>
+          </div>
+          <div class="p-6 bg-white shadow-md rounded-lg">
+             <box-icon type='solid' color="gray" class="h-14 w-14" name='user-circle'></box-icon>
+            <h3 class="font-semibold text-sm sm:text-xl mb-3">Ridho Hidayat</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-white text-sky-900">
+      <div class="max-w-4xl mx-auto text-center px-5">
+        <h2 class="font-bold text-3xl sm:text-4xl mb-6">Hubungi Kami</h2>
+        <p class="text-lg mb-6">
+          Jangan ragu untuk menghubungi kami melalui formulir di bawah ini untuk
+          saran atau pertanyaan.
+        </p>
+        <form action="#" method="POST" class="max-w-md mx-auto">
+          <div class="mb-4">
+            <label for="name" class="block text-left font-medium mb-1"
+              >Nama:</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-sky-500"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block text-left font-medium mb-1"
+              >Email:</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-sky-500"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="message" class="block text-left font-medium mb-1"
+              >Pesan:</label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-sky-500"
+              required
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="w-full px-4 py-2 bg-sky-500 text-white font-semibold rounded-md hover:bg-sky-600 transition duration-200"
+          >
+            Kirim Pesan
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="bg-sky-500 text-white py-10">
+      <div
+        class="max-w-7xl mx-auto px-5 sm:px-10 grid grid-cols-1 md:grid-cols-3 gap-8"
+      >
+        <div>
+          <h3 class="font-bold text-lg mb-4">GeoPekan</h3>
+          <p class="text-sm">
+            GeoPekan adalah sistem informasi geografis yang menyediakan
+            informasi lengkap dan terkini tentang fasilitas umum di Pekanbaru.
+          </p>
+        </div>
+
+        <div class="flex flex-col">
+          <h3 class="font-bold text-lg mb-4">Navigasi</h3>
+          <a href="#home" class="text-sm hover:text-sky-200">Home</a>
+          <a href="#about" class="text-sm hover:text-sky-200">About Us</a>
+          <a href="#services" class="text-sm hover:text-sky-200">Services</a>
+          <a href="#team" class="text-sm hover:text-sky-200">Teams</a>
+          <a href="#contact" class="text-sm hover:text-sky-200">Contact</a>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-lg mb-4">Hubungi Kami</h3>
+          <p class="text-sm mb-4">Email: bimo22ti@mahasiswa.pcr.ac.id</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-sky-200 hover:text-white">
+              <box-icon
+                type="logo"
+                color="white"
+                name="facebook-circle"
+              ></box-icon>
+            </a>
+            <a href="#" class="text-sky-200 hover:text-white">
+              <box-icon type="logo" color="white" name="twitter"></box-icon>
+            </a>
+            <a href="#" class="text-sky-200 hover:text-white">
+              <box-icon
+                type="logo"
+                color="white"
+                name="instagram-alt"
+              ></box-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 text-center text-sm text-sky-200">
+        <p class="">Sistem Informasi Geografis.</p>
+        <p class="font-bold text-xl text-white">
+          Teknik Informatika, Politeknik Caltex Riau.
+        </p>
+      </div>
+
+      <div
+        class="mt-10 text-center border-t border-sky-600 pt-5 text-sm text-sky-200"
+      >
+        &copy; 2024 GeoPekan.
+      </div>
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>
+
