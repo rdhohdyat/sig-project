@@ -52,6 +52,88 @@ let fasilitasLayer = new VectorLayer({
 
 map.addLayer(fasilitasLayer);
 
+document.getElementById("search-input").addEventListener("input", function (e) {
+  const searchValue = e.target.value.toLowerCase();
+  filterFacilities(searchValue);
+});
+
+const filterFacilities = (searchValue) => {
+  fasilitasLayer.getSource().clear();
+  fasilitasContainer.innerHTML = "";
+
+  const filteredFacilities = allFacilities.filter(
+    (facility) =>
+      facility.nama.toLowerCase().includes(searchValue) ||
+      facility.kategori.toLowerCase().includes(searchValue)
+  );
+
+  jumlahFasilitas.innerHTML = `Jumlah Fasilitas: ${filteredFacilities.length}`;
+
+  if (filteredFacilities.length < 1) {
+    fasilitasContainer.innerHTML =
+      "<p class='text-center font-semibold'>Fasilitas tidak ditemukan!</p>";
+  } else {
+    filteredFacilities.forEach((item) => {
+      const latitude = parseFloat(item.latitude);
+      const longitude = parseFloat(item.longitude);
+      const koordinat = fromLonLat([longitude, latitude]);
+
+      const marker = new Feature({
+        geometry: new Point(koordinat),
+        nama: item.nama,
+        alamat: item.alamat,
+        kategori: item.kategori,
+        jam_buka: item.jam_buka,
+        jam_tutup: item.jam_tutup,
+      });
+
+      marker.setStyle(
+        new Style({
+          image: new Icon({
+            anchor: [0.5, 1],
+            src: getIconForCategory(item.kategori),
+            scale: 0.05,
+          }),
+        })
+      );
+
+      fasilitasLayer.getSource().addFeature(marker);
+
+      const card = document.createElement("div");
+      card.className =
+        "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer";
+      card.innerHTML = `
+        <img src="${`http://localhost:8000/gambar/${item.kategori}/${item.nama}/1.jpg`}" class="w-full h-[170px] object-cover" alt="${
+        item.nama
+      }" />
+        <div class="p-4">
+          <h1 class="font-bold text-lg text-sky-900 mb-2">${item.nama}</h1>
+          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${
+            item.jam_buka
+          } - ${item.jam_tutup}</p>
+          <p class="text-sm text-gray-500 mt-2">Lokasi: ${item.kecamatan}</p>
+        </div>
+      `;
+
+      card.addEventListener("click", () => {
+        document.getElementById(
+          "modal-image"
+        ).src = `${`http://localhost:8000/gambar/${item.kategori}/${item.nama}/1.jpg`}`;
+        document.getElementById("modal-nama").innerText = item.nama;
+        document.getElementById("modal-deskripsi").innerText = item.kategori;
+        document.getElementById("modal-jamBuka").innerText =
+          "Jam Buka: " + item.jam_buka;
+        document.getElementById("modal-lokasi").innerText =
+          "Lokasi: " + item.alamat;
+
+        document.getElementById("modal").classList.remove("hidden");
+      });
+
+      fasilitasContainer.appendChild(card);
+    });
+  }
+};
+
 let allFacilities = [];
 
 let jumlahFasilitas = document.getElementById("jumlah_fasilitas");
