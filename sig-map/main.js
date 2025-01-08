@@ -23,7 +23,6 @@ const map = new Map({
 });
 
 const container = document.getElementById("popup");
-// const popup = document.getElementById("popup");
 const popupCloser = document.getElementById("popup-closer");
 const popupContent = document.getElementById("popup-content");
 
@@ -86,6 +85,7 @@ const filterFacilities = (searchValue) => {
         kategori: item.kategori,
         jam_buka: item.jam_buka,
         jam_tutup: item.jam_tutup,
+        foto: item.foto
       });
 
       marker.setStyle(
@@ -145,8 +145,8 @@ document.getElementById("apply-time-filter").addEventListener("click", (e) => {
 });
 
 const filterByCategoryAndKecamatan = (category, kecamatan) => {
-  const jamBukaFilter = document.getElementById("jam-buka").value;
-  const jamTutupFilter = document.getElementById("jam-tutup").value;
+  const jamBukaFilter = document.getElementById("jam-buka").value || "12:00 AM";
+  const jamTutupFilter = document.getElementById("jam-tutup").value || "11:59 PM";
 
   filterByCategoryKecamatanAndTime(category, kecamatan, jamBukaFilter, jamTutupFilter);
 };
@@ -362,15 +362,14 @@ const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, ja
   fasilitasContainer.innerHTML = "";
 
   const filteredFacilities = allFacilities.filter((fasilitas) => {
-    const fasilitasJamBuka = parseTime(fasilitas.jam_buka); // Waktu buka fasilitas
-    const fasilitasJamTutup = parseTime(fasilitas.jam_tutup); // Waktu tutup fasilitas
-    const filterJamBuka = parseTime(jamBukaFilter); // Waktu buka filter
-    const filterJamTutup = parseTime(jamTutupFilter); // Waktu tutup filter
+    const fasilitasJamBuka = parseTime(fasilitas.jam_buka);
+    const fasilitasJamTutup = parseTime(fasilitas.jam_tutup);
+    const filterJamBuka = parseTime(jamBukaFilter);
+    const filterJamTutup = parseTime(jamTutupFilter);
 
-    // Logika baru: Pastikan fasilitas buka dan tutup dalam rentang filter
     const isWithinTimeRange =
-      fasilitasJamBuka >= filterJamBuka && // Buka setelah atau tepat waktu buka filter
-      fasilitasJamTutup <= filterJamTutup; // Tutup sebelum atau tepat waktu tutup filter
+      fasilitasJamBuka >= filterJamBuka &&
+      fasilitasJamTutup <= filterJamTutup;
 
     const isCategoryMatch = !category || fasilitas.kategori === category;
     const isKecamatanMatch = !kecamatan || fasilitas.kecamatan === kecamatan;
