@@ -344,9 +344,18 @@ fetchLocation();
 
 const parseTime = (timeString) => {
   if (!timeString) return null;
-  const [hours, minutes] = timeString.split(":").map(Number);
-  return hours * 60 + minutes;
+  const [time, meridian] = timeString.trim().toUpperCase().split(" ");
+  const [hours, minutes] = time.split(":").slice(0, 2).map(Number);
+
+  const adjustedHours = meridian === "PM" && hours !== 12
+    ? hours + 12
+    : meridian === "AM" && hours === 12
+    ? 0
+    : hours;
+
+  return adjustedHours * 60 + minutes;
 };
+
 
 const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, jamTutupFilter) => {
   fasilitasLayer.getSource().clear();
@@ -358,18 +367,18 @@ const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, ja
     const filterJamBuka = parseTime(jamBukaFilter); // Waktu buka filter
     const filterJamTutup = parseTime(jamTutupFilter); // Waktu tutup filter
 
-    // Logika untuk mengecek apakah fasilitas masih buka
-    const isInTimeRange =
-      (!jamBukaFilter || fasilitasJamTutup >= filterJamBuka) &&
-      (!jamTutupFilter || fasilitasJamBuka <= filterJamTutup);
+    // Logika baru: Pastikan fasilitas buka dan tutup dalam rentang filter
+    const isWithinTimeRange =
+      fasilitasJamBuka >= filterJamBuka && // Buka setelah atau tepat waktu buka filter
+      fasilitasJamTutup <= filterJamTutup; // Tutup sebelum atau tepat waktu tutup filter
 
     const isCategoryMatch = !category || fasilitas.kategori === category;
     const isKecamatanMatch = !kecamatan || fasilitas.kecamatan === kecamatan;
 
-    return isInTimeRange && isCategoryMatch && isKecamatanMatch;
+    return isWithinTimeRange && isCategoryMatch && isKecamatanMatch;
   });
 
-  jumlahFasilitas.innerHTML = `Jumlah Fasilitas : ${filteredFacilities.length}`;
+  jumlahFasilitas.innerHTML = `Jumlah: ${filteredFacilities.length}`;
 
   if (filteredFacilities.length < 1) {
     fasilitasContainer.innerHTML =
