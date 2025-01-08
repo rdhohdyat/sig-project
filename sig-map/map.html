@@ -35,8 +35,9 @@
   </div>
 
 
-  <div id="popup" style="position: absolute; background-color: white; padding: 10px; display: none;">
+  <div id="popup" style="position: absolute; background-color: black; padding: 10px; left: 0; z-index: 99999; display: none;">
   <div id="popup-content"></div>
+  <h1>Hallo</h1>
   <a href="#" id="popup-closer">Close</a>
 </div>
 
@@ -121,21 +122,11 @@
               <option value="Tenayan Raya">Tenayan Raya</option>
             </select>
           </div>
-          <div class="flex flex-col gap-2 mt-2">
-            <label for="">Filter berdasarkan kategori</label>
-            <select name="" id="" class="border p-2 rounded-lg text-sm">
-              <option value="" selected>Pilih Fasilitas</option>
-              <option value="">Tempat ibadah</option>
-              <option value="">Kesehatan</option>
-              <option value="">Pusat perbelanjaan</option>
-              <option value="">Taman & hiburan</option>
-              <option value="">Transportasi</option>
-              <option value="">Pendidikan</option>
-            </select>
-          </div>
           <div class="flex flex-col gap-2 mt-1">
             <label for="">Filter berdasarkan waktu buka</label>
-            <input type="time" class="border p-2 rounded-lg text-sm w-full" />
+            <input id="jam-buka" type="time" class="border p-2 rounded-lg text-sm w-full" />
+            <input id="jam-tutup" type="time" class="border p-2 rounded-lg text-sm w-full" />
+            <button id="apply-time-filter" class="bg-sky-400 text-white rounded-lg p-2 text-sm">Pakai jam</button>
           </div>
         </div>
       </div>
@@ -166,6 +157,12 @@
       <h1 class="sm:text-sm font-semibold mb-2 text-sky-900">Lihat Map</h1>
       <div id="map"></div>
     </div>
+  </div>
+
+  <img src="" alt="">
+
+  <div id="test-popup" class="bg-white w-[400px] border rounded-lg absolute shadow-md p-10 hidden">
+    <h1>hallo</h1>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

@@ -10,33 +10,31 @@ import Feature from "ol/Feature";
 import { Point } from "ol/geom.js";
 
 const map = new Map({
-  target: "map", // ID of the HTML element for the map
+  target: "map",
   layers: [
     new TileLayer({
-      source: new OSM(), // OpenStreetMap as the base layer
+      source: new OSM(),
     }),
   ],
   view: new View({
-    center: fromLonLat([101.4609, 0.55044]), // Pekanbaru coordinates
+    center: fromLonLat([101.4609, 0.55044]),
     zoom: 12,
   }),
 });
 
 const container = document.getElementById("popup");
-const popup = document.getElementById("popup");
+// const popup = document.getElementById("popup");
 const popupCloser = document.getElementById("popup-closer");
 const popupContent = document.getElementById("popup-content");
 
-const overlay = new Overlay({
-  element: container,
-  autoPan: {
-    animation: {
-      duration: 250,
-    },
-  },
-});
-
-map.addOverlay(overlay);
+// const overlay = new Overlay({
+//   element: container,
+//   autoPan: {
+//     animation: {
+//       duration: 250,
+//     },
+//   },
+// });
 
 let fasilitasLayer = new VectorLayer({
   source: new VectorSource(),
@@ -49,6 +47,9 @@ let fasilitasLayer = new VectorLayer({
   //   }),
   // }),
 });
+
+
+
 
 map.addLayer(fasilitasLayer);
 
@@ -67,7 +68,7 @@ const filterFacilities = (searchValue) => {
       facility.kategori.toLowerCase().includes(searchValue)
   );
 
-  jumlahFasilitas.innerHTML = `Jumlah Fasilitas: ${filteredFacilities.length}`;
+  jumlahFasilitas.innerHTML = `Jumlah: ${filteredFacilities.length}`;
 
   if (filteredFacilities.length < 1) {
     fasilitasContainer.innerHTML =
@@ -103,14 +104,12 @@ const filterFacilities = (searchValue) => {
       card.className =
         "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer";
       card.innerHTML = `
-        <img src="${`http://localhost:8000/gambar/${item.kategori}/${item.nama}/1.jpg`}" class="w-full h-[170px] object-cover" alt="${
-        item.nama
-      }" />
+        <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${item.nama
+        }" />
         <div class="p-4">
           <h1 class="font-bold text-lg text-sky-900 mb-2">${item.nama}</h1>
-          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${
-            item.jam_buka
-          } - ${item.jam_tutup}</p>
+          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${item.jam_buka
+        } - ${item.jam_tutup}</p>
           <p class="text-sm text-gray-500 mt-2">Lokasi: ${item.kecamatan}</p>
         </div>
       `;
@@ -118,7 +117,7 @@ const filterFacilities = (searchValue) => {
       card.addEventListener("click", () => {
         document.getElementById(
           "modal-image"
-        ).src = `${`http://localhost:8000/gambar/${item.kategori}/${item.nama}/1.jpg`}`;
+        ).src = `${item.foto}`;
         document.getElementById("modal-nama").innerText = item.nama;
         document.getElementById("modal-deskripsi").innerText = item.kategori;
         document.getElementById("modal-jamBuka").innerText =
@@ -133,6 +132,26 @@ const filterFacilities = (searchValue) => {
     });
   }
 };
+
+document.getElementById("apply-time-filter").addEventListener("click", (e) => {
+  e.preventDefault();
+  const jamBukaFilter = document.getElementById("jam-buka").value;
+  const jamTutupFilter = document.getElementById("jam-tutup").value;
+
+  const selectedCategory = document.querySelector(".category_item.active")?.getAttribute("data-category") || "";
+  const selectedKecamatan = document.getElementById("kecamatan_options").value;
+
+  filterByCategoryKecamatanAndTime(selectedCategory, selectedKecamatan, jamBukaFilter, jamTutupFilter);
+});
+
+const filterByCategoryAndKecamatan = (category, kecamatan) => {
+  const jamBukaFilter = document.getElementById("jam-buka").value;
+  const jamTutupFilter = document.getElementById("jam-tutup").value;
+
+  filterByCategoryKecamatanAndTime(category, kecamatan, jamBukaFilter, jamTutupFilter);
+};
+
+
 
 let allFacilities = [];
 
@@ -153,7 +172,6 @@ const getIconForCategory = (kategori) => {
       return "icon/location-pin.png";
   }
 };
-
 
 const fetchLocation = async () => {
   fasilitasContainer.innerHTML = ``;
@@ -177,6 +195,7 @@ const fetchLocation = async () => {
         kategori: item.kategori,
         jam_buka: item.jam_buka,
         jam_tutup: item.jam_tutup,
+        foto: item.foto
       });
 
       marker.setStyle(
@@ -195,13 +214,11 @@ const fetchLocation = async () => {
         "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer";
 
       card.innerHTML = `
-      <img src="${`http://localhost:8000/gambar/${item.kategori}/${item.nama}/1.jpg`}" class="w-full h-[170px] object-cover" alt="${
-        item.nama
-      }" />
+      <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${item.nama
+        }" />
       <div class="p-4">
         <h1 class="font-bold text-lg text-sky-900 mb-2">${item.nama}</h1>
-        <p class="text-sm font-semibold text-gray-800">Jam Operasional : ${
-          item.jam_buka
+        <p class="text-sm font-semibold text-gray-800">Jam Operasional : ${item.jam_buka
         } - ${item.jam_tutup}</p>
         <p class="text-sm text-gray-500 mt-2">Lokasi: ${item.kecamatan}</p>
       </div>
@@ -210,7 +227,7 @@ const fetchLocation = async () => {
       card.addEventListener("click", () => {
         document.getElementById(
           "modal-image"
-        ).src = `${`http://localhost:8000/gambar/${item.kategori}/${item.nama}/1.jpg`}`;
+        ).src = `${item.foto}`;
         document.getElementById("modal-nama").innerText = item.nama;
         document.getElementById("modal-deskripsi").innerText = item.kategori;
         document.getElementById("modal-jamBuka").innerText =
@@ -221,27 +238,52 @@ const fetchLocation = async () => {
         document.getElementById("modal").classList.remove("hidden");
       });
 
-      marker.on("click", function (e) {
-        console.log("hai");
-        popupContent.innerHTML = `
-          <h3>${item.nama}</h3>
-          <p>Alamat: ${item.alamat}</p>
-          <p>Kategori: ${item.kategori}</p>
-          <p>Jam Buka: ${item.jam_buka}</p>
-          <p>Jam Tutup: ${item.jam_tutup}</p>
-        `;
-        overlay.setPosition(e.coordinate);
-        popup.classList.remove("hidden");
-      });
-
       fasilitasContainer.appendChild(card);
     });
-
 
   } catch (error) {
     console.error("Error fetching facility data:", error);
   }
 };
+
+let popupContainer = document.getElementById("test-popup")
+
+const popup = new Overlay({
+  element: popupContainer,
+  positioning: 'top-center', // Adjust positioning as needed
+  stopEvent: false, // Allow map interaction
+  offset: [0, -10] // Adjust offset based on your needs
+});
+
+map.addOverlay(popup)
+
+map.on('singleclick', function (evt) {
+  const feature = map.forEachFeatureAtPixel(evt.pixel, function (feat) {
+    return feat;
+  });
+
+  popupContainer.classList.toggle("hidden");
+
+  if (feature) {
+    const coordinates = feature.getGeometry().getCoordinates();
+    popupContainer.innerHTML = `
+      <img class="w-full h-[200px] object-cover" src=${feature.get("foto")}>
+      <h3>Informasi Fasilitas</h3>
+      <p>Nama: <strong>${feature.get("nama")}</strong></p>
+      <p>Alamat: ${feature.get("alamat")}</p>
+      <p>Kategori: ${feature.get("kategori")}</p>
+      <p>Jam Operasional: ${feature.get("jam_buka")} - ${feature.get("jam_tutup")}</p>
+    `;
+
+    popup.setPosition(coordinates);
+    
+  } else {
+    // Hide the popup if no feature was clicked
+    popup.setPosition(undefined);
+    popupContainer.classList.add("hidden");
+  }
+});
+
 
 document.querySelectorAll('.overlay-container input[type="checkbox"]').forEach((checkbox) => {
   checkbox.addEventListener('change', (e) => {
@@ -268,6 +310,7 @@ const showCategory = (category) => {
         kategori: facility.kategori,
         jam_buka: facility.jam_buka,
         jam_tutup: facility.jam_tutup,
+        foto: facility.foto
       });
 
       marker.setStyle(
@@ -298,21 +341,39 @@ const hideCategory = (category) => {
 
 fetchLocation();
 
-const filterByCategoryAndKecamatan = (category, kecamatan) => {
+
+const parseTime = (timeString) => {
+  if (!timeString) return null;
+  const [hours, minutes] = timeString.split(":").map(Number);
+  return hours * 60 + minutes;
+};
+
+const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, jamTutupFilter) => {
   fasilitasLayer.getSource().clear();
   fasilitasContainer.innerHTML = "";
 
-  const filteredFacilities = allFacilities.filter(
-    (fasilitas) =>
-      (fasilitas.kategori === category || !category) &&
-      (fasilitas.kecamatan === kecamatan || !kecamatan)
-  );
+  const filteredFacilities = allFacilities.filter((fasilitas) => {
+    const fasilitasJamBuka = parseTime(fasilitas.jam_buka); // Waktu buka fasilitas
+    const fasilitasJamTutup = parseTime(fasilitas.jam_tutup); // Waktu tutup fasilitas
+    const filterJamBuka = parseTime(jamBukaFilter); // Waktu buka filter
+    const filterJamTutup = parseTime(jamTutupFilter); // Waktu tutup filter
+
+    // Logika untuk mengecek apakah fasilitas masih buka
+    const isInTimeRange =
+      (!jamBukaFilter || fasilitasJamTutup >= filterJamBuka) &&
+      (!jamTutupFilter || fasilitasJamBuka <= filterJamTutup);
+
+    const isCategoryMatch = !category || fasilitas.kategori === category;
+    const isKecamatanMatch = !kecamatan || fasilitas.kecamatan === kecamatan;
+
+    return isInTimeRange && isCategoryMatch && isKecamatanMatch;
+  });
 
   jumlahFasilitas.innerHTML = `Jumlah Fasilitas : ${filteredFacilities.length}`;
 
   if (filteredFacilities.length < 1) {
     fasilitasContainer.innerHTML =
-      "<p class=`text-center font-semibold`>Fasilitas tidak ditemukan!</p>";
+      "<p class='text-center font-semibold'>Fasilitas tidak ditemukan!</p>";
   } else {
     filteredFacilities.forEach((item) => {
       const latitude = parseFloat(item.latitude);
@@ -344,14 +405,12 @@ const filterByCategoryAndKecamatan = (category, kecamatan) => {
       card.className =
         "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer";
       card.innerHTML = `
-        <img src="${`http://localhost:8000/gambar/${item.kategori}/${item.nama}/1.jpg`}" class="w-full h-[170px] object-cover" alt="${
-        item.nama
-      }" />
+        <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${item.nama
+        }" />
         <div class="p-4">
           <h1 class="font-bold text-lg text-sky-900 mb-2">${item.nama}</h1>
-          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${
-            item.jam_buka
-          } - ${item.jam_tutup}</p>
+          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${item.jam_buka
+        } - ${item.jam_tutup}</p>
           <p class="text-sm text-gray-500 mt-2">Lokasi: ${item.kecamatan}</p>
         </div>
       `;
@@ -359,7 +418,7 @@ const filterByCategoryAndKecamatan = (category, kecamatan) => {
       card.addEventListener("click", () => {
         document.getElementById(
           "modal-image"
-        ).src = `${`http://localhost:8000/gambar/${item.kategori}/${item.nama}/1.jpg`}`;
+        ).src = `${item.foto}`;
         document.getElementById("modal-nama").innerText = item.nama;
         document.getElementById("modal-deskripsi").innerText = item.kategori;
         document.getElementById("modal-jamBuka").innerText =
@@ -374,6 +433,7 @@ const filterByCategoryAndKecamatan = (category, kecamatan) => {
     });
   }
 };
+
 
 document.getElementById("kecamatan_options").addEventListener("change", (e) => {
   const selectedKecamatan = e.target.value;
@@ -436,5 +496,5 @@ popupCloser.addEventListener("click", () => {
 popup.addEventListener("click", (e) => {
   if (e.target === popup) {
     popup.classList.add("hidden");
-  }
+  } 
 });
