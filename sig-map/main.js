@@ -181,7 +181,7 @@ const getIconForCategory = (kategori) => {
 const fetchLocation = async () => {
   fasilitasContainer.innerHTML = ``;
   try {
-    const response = await fetch("http://localhost:8000/fasilitas");
+    const response = await fetch("http://localhost:8000/fasilitas/data");
     const data = await response.json();
 
     jumlahFasilitas.innerHTML = `Jumlah : ${data.length}`;
