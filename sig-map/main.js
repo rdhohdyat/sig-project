@@ -47,9 +47,6 @@ let fasilitasLayer = new VectorLayer({
   // }),
 });
 
-
-
-
 map.addLayer(fasilitasLayer);
 
 document.getElementById("search-input").addEventListener("input", function (e) {
@@ -85,7 +82,7 @@ const filterFacilities = (searchValue) => {
         kategori: item.kategori,
         jam_buka: item.jam_buka,
         jam_tutup: item.jam_tutup,
-        foto: item.foto
+        foto: item.foto,
       });
 
       marker.setStyle(
@@ -104,20 +101,16 @@ const filterFacilities = (searchValue) => {
       card.className =
         "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer";
       card.innerHTML = `
-        <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${item.nama
-        }" />
+        <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${item.nama}" />
         <div class="p-4">
           <h1 class="font-bold text-lg text-sky-900 mb-2">${item.nama}</h1>
-          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${item.jam_buka
-        } - ${item.jam_tutup}</p>
+          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${item.jam_buka} - ${item.jam_tutup}</p>
           <p class="text-sm text-gray-500 mt-2">Lokasi: ${item.kecamatan}</p>
         </div>
       `;
 
       card.addEventListener("click", () => {
-        document.getElementById(
-          "modal-image"
-        ).src = `${item.foto}`;
+        document.getElementById("modal-image").src = `${item.foto}`;
         document.getElementById("modal-nama").innerText = item.nama;
         document.getElementById("modal-deskripsi").innerText = item.kategori;
         document.getElementById("modal-jamBuka").innerText =
@@ -138,20 +131,32 @@ document.getElementById("apply-time-filter").addEventListener("click", (e) => {
   const jamBukaFilter = document.getElementById("jam-buka").value;
   const jamTutupFilter = document.getElementById("jam-tutup").value;
 
-  const selectedCategory = document.querySelector(".category_item.active")?.getAttribute("data-category") || "";
+  const selectedCategory =
+    document
+      .querySelector(".category_item.active")
+      ?.getAttribute("data-category") || "";
   const selectedKecamatan = document.getElementById("kecamatan_options").value;
 
-  filterByCategoryKecamatanAndTime(selectedCategory, selectedKecamatan, jamBukaFilter, jamTutupFilter);
+  filterByCategoryKecamatanAndTime(
+    selectedCategory,
+    selectedKecamatan,
+    jamBukaFilter,
+    jamTutupFilter
+  );
 });
 
 const filterByCategoryAndKecamatan = (category, kecamatan) => {
   const jamBukaFilter = document.getElementById("jam-buka").value || "12:00 AM";
-  const jamTutupFilter = document.getElementById("jam-tutup").value || "11:59 PM";
+  const jamTutupFilter =
+    document.getElementById("jam-tutup").value || "11:59 PM";
 
-  filterByCategoryKecamatanAndTime(category, kecamatan, jamBukaFilter, jamTutupFilter);
+  filterByCategoryKecamatanAndTime(
+    category,
+    kecamatan,
+    jamBukaFilter,
+    jamTutupFilter
+  );
 };
-
-
 
 let allFacilities = [];
 
@@ -183,6 +188,7 @@ const fetchLocation = async () => {
 
     allFacilities = data;
 
+    let i = 1;
     data.forEach((item) => {
       const latitude = parseFloat(item.latitude);
       const longitude = parseFloat(item.longitude);
@@ -195,7 +201,7 @@ const fetchLocation = async () => {
         kategori: item.kategori,
         jam_buka: item.jam_buka,
         jam_tutup: item.jam_tutup,
-        foto: item.foto
+        foto: item.foto,
       });
 
       marker.setStyle(
@@ -211,23 +217,24 @@ const fetchLocation = async () => {
       fasilitasLayer.getSource().addFeature(marker);
       const card = document.createElement("div");
       card.className =
-        "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer";
+        "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer relative";
 
       card.innerHTML = `
-      <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${item.nama
-        }" />
+      <div class="absolute right-2 top-2 font-semibold bg-sky-400 w-8 h-8 rounded-full flex justify-center items-center text-white">${i++}</div>
+      <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${
+        item.nama
+      }" />
       <div class="p-4">
         <h1 class="font-bold text-lg text-sky-900 mb-2">${item.nama}</h1>
-        <p class="text-sm font-semibold text-gray-800">Jam Operasional : ${item.jam_buka
+        <p class="text-sm font-semibold text-gray-800">Jam Operasional : ${
+          item.jam_buka
         } - ${item.jam_tutup}</p>
         <p class="text-sm text-gray-500 mt-2">Lokasi: ${item.kecamatan}</p>
       </div>
     `;
 
       card.addEventListener("click", () => {
-        document.getElementById(
-          "modal-image"
-        ).src = `${item.foto}`;
+        document.getElementById("modal-image").src = `${item.foto}`;
         document.getElementById("modal-nama").innerText = item.nama;
         document.getElementById("modal-deskripsi").innerText = item.kategori;
         document.getElementById("modal-jamBuka").innerText =
@@ -240,24 +247,23 @@ const fetchLocation = async () => {
 
       fasilitasContainer.appendChild(card);
     });
-
   } catch (error) {
     console.error("Error fetching facility data:", error);
   }
 };
 
-let popupContainer = document.getElementById("test-popup")
+let popupContainer = document.getElementById("test-popup");
 
 const popup = new Overlay({
   element: popupContainer,
-  positioning: 'top-center', // Adjust positioning as needed
+  positioning: "top-center", // Adjust positioning as needed
   stopEvent: false, // Allow map interaction
-  offset: [0, -10] // Adjust offset based on your needs
+  offset: [0, -10], // Adjust offset based on your needs
 });
 
-map.addOverlay(popup)
+map.addOverlay(popup);
 
-map.on('singleclick', function (evt) {
+map.on("singleclick", function (evt) {
   const feature = map.forEachFeatureAtPixel(evt.pixel, function (feat) {
     return feat;
   });
@@ -268,15 +274,18 @@ map.on('singleclick', function (evt) {
     const coordinates = feature.getGeometry().getCoordinates();
     popupContainer.innerHTML = `
       <img class="w-full h-[200px] object-cover" src=${feature.get("foto")}>
+      <div class="p-5">
       <h3>Informasi Fasilitas</h3>
       <p>Nama: <strong>${feature.get("nama")}</strong></p>
       <p>Alamat: ${feature.get("alamat")}</p>
       <p>Kategori: ${feature.get("kategori")}</p>
-      <p>Jam Operasional: ${feature.get("jam_buka")} - ${feature.get("jam_tutup")}</p>
+      <p>Jam Operasional: ${feature.get("jam_buka")} - ${feature.get(
+      "jam_tutup"
+    )}</p>
+    </div>
     `;
 
     popup.setPosition(coordinates);
-    
   } else {
     // Hide the popup if no feature was clicked
     popup.setPosition(undefined);
@@ -284,17 +293,18 @@ map.on('singleclick', function (evt) {
   }
 });
 
-
-document.querySelectorAll('.overlay-container input[type="checkbox"]').forEach((checkbox) => {
-  checkbox.addEventListener('change', (e) => {
-    const category = e.target.dataset.category;
-    if (e.target.checked) {
-      showCategory(category);
-    } else {
-      hideCategory(category);
-    }
+document
+  .querySelectorAll('.overlay-container input[type="checkbox"]')
+  .forEach((checkbox) => {
+    checkbox.addEventListener("change", (e) => {
+      const category = e.target.dataset.category;
+      if (e.target.checked) {
+        showCategory(category);
+      } else {
+        hideCategory(category);
+      }
+    });
   });
-});
 
 const showCategory = (category) => {
   allFacilities.forEach((facility) => {
@@ -310,7 +320,7 @@ const showCategory = (category) => {
         kategori: facility.kategori,
         jam_buka: facility.jam_buka,
         jam_tutup: facility.jam_tutup,
-        foto: facility.foto
+        foto: facility.foto,
       });
 
       marker.setStyle(
@@ -332,7 +342,7 @@ const hideCategory = (category) => {
   const featuresToRemove = fasilitasLayer
     .getSource()
     .getFeatures()
-    .filter((feature) => feature.get('kategori') === category);
+    .filter((feature) => feature.get("kategori") === category);
 
   featuresToRemove.forEach((feature) => {
     fasilitasLayer.getSource().removeFeature(feature);
@@ -341,23 +351,27 @@ const hideCategory = (category) => {
 
 fetchLocation();
 
-
 const parseTime = (timeString) => {
   if (!timeString) return null;
   const [time, meridian] = timeString.trim().toUpperCase().split(" ");
   const [hours, minutes] = time.split(":").slice(0, 2).map(Number);
 
-  const adjustedHours = meridian === "PM" && hours !== 12
-    ? hours + 12
-    : meridian === "AM" && hours === 12
-    ? 0
-    : hours;
+  const adjustedHours =
+    meridian === "PM" && hours !== 12
+      ? hours + 12
+      : meridian === "AM" && hours === 12
+      ? 0
+      : hours;
 
   return adjustedHours * 60 + minutes;
 };
 
-
-const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, jamTutupFilter) => {
+const filterByCategoryKecamatanAndTime = (
+  category,
+  kecamatan,
+  jamBukaFilter,
+  jamTutupFilter
+) => {
   fasilitasLayer.getSource().clear();
   fasilitasContainer.innerHTML = "";
 
@@ -368,8 +382,7 @@ const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, ja
     const filterJamTutup = parseTime(jamTutupFilter);
 
     const isWithinTimeRange =
-      fasilitasJamBuka >= filterJamBuka &&
-      fasilitasJamTutup <= filterJamTutup;
+      fasilitasJamBuka >= filterJamBuka && fasilitasJamTutup <= filterJamTutup;
 
     const isCategoryMatch = !category || fasilitas.kategori === category;
     const isKecamatanMatch = !kecamatan || fasilitas.kecamatan === kecamatan;
@@ -383,6 +396,7 @@ const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, ja
     fasilitasContainer.innerHTML =
       "<p class='text-center font-semibold'>Fasilitas tidak ditemukan!</p>";
   } else {
+    let i = 1;
     filteredFacilities.forEach((item) => {
       const latitude = parseFloat(item.latitude);
       const longitude = parseFloat(item.longitude);
@@ -395,6 +409,7 @@ const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, ja
         kategori: item.kategori,
         jam_buka: item.jam_buka,
         jam_tutup: item.jam_tutup,
+        foto: item.foto,
       });
 
       marker.setStyle(
@@ -411,22 +426,23 @@ const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, ja
 
       const card = document.createElement("div");
       card.className =
-        "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer";
+        "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer relative";
       card.innerHTML = `
-        <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${item.nama
-        }" />
+         <div class="absolute right-2 top-2 font-semibold bg-sky-400 w-8 h-8 rounded-full flex justify-center items-center text-white">${i++}</div>
+        <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${
+        item.nama
+      }" />
         <div class="p-4">
           <h1 class="font-bold text-lg text-sky-900 mb-2">${item.nama}</h1>
-          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${item.jam_buka
-        } - ${item.jam_tutup}</p>
+          <p class="text-sm font-semibold text-gray-800">Jam Operasional: ${
+            item.jam_buka
+          } - ${item.jam_tutup}</p>
           <p class="text-sm text-gray-500 mt-2">Lokasi: ${item.kecamatan}</p>
         </div>
       `;
 
       card.addEventListener("click", () => {
-        document.getElementById(
-          "modal-image"
-        ).src = `${item.foto}`;
+        document.getElementById("modal-image").src = `${item.foto}`;
         document.getElementById("modal-nama").innerText = item.nama;
         document.getElementById("modal-deskripsi").innerText = item.kategori;
         document.getElementById("modal-jamBuka").innerText =
@@ -441,7 +457,6 @@ const filterByCategoryKecamatanAndTime = (category, kecamatan, jamBukaFilter, ja
     });
   }
 };
-
 
 document.getElementById("kecamatan_options").addEventListener("change", (e) => {
   const selectedKecamatan = e.target.value;
@@ -504,5 +519,5 @@ popupCloser.addEventListener("click", () => {
 popup.addEventListener("click", (e) => {
   if (e.target === popup) {
     popup.classList.add("hidden");
-  } 
+  }
 });
