@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\FasilitasControllerAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('fasilitas', FasilitasController::class);
+Route::resource('fasilitas/data', FasilitasController::class);
+
+Route::get('/fasilitas', [FasilitasControllerAdmin::class, 'index'])->name('fasilitas.index');
+Route::post('/fasilitas/store', [FasilitasControllerAdmin::class, 'store'])->name('fasilitas.store');
+Route::put('/fasilitas/{id}', [FasilitasControllerAdmin::class, 'update'])->name('fasilitas.update');
+Route::delete('/fasilitas/{id}', [FasilitasControllerAdmin::class, 'destroy'])->name('fasilitas.destroy');
 
 Route::get('/', function () {
     return view('welcome');
