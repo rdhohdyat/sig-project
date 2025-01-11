@@ -80,8 +80,12 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="kategori" class="form-label">Kategori</label>
-                                                        <input type="text" class="form-control" id="kategori" name="kategori"
-                                                            value="{{ $item->kategori }}" required>
+                                                        <select class="form-select" id="kategori" name="kategori" required>
+                                                            <option value="Taman" {{ $item->kategori == 'Taman' ? 'selected' : '' }}>Taman</option>
+                                                            <option value="Tempat Ibadah" {{ $item->kategori == 'Tempat Ibadah' ? 'selected' : '' }}>Tempat Ibadah</option>
+                                                            <option value="Halte Bus" {{ $item->kategori == 'Halte Bus' ? 'selected' : '' }}>Halte Bus</option>
+                                                            <option value="Tempat Belanja" {{ $item->kategori == 'Tempat Belanja' ? 'selected' : '' }}>Tempat Belanja</option>
+                                                        </select>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="kecamatan" class="form-label">Kecamatan</label>
@@ -133,15 +137,10 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <form action="{{ route('fasilitas.destroy', $item->id) }}" method="POST" class="d-inline"
-                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus fasilitas ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-danger btn-sm"
+                                    onclick="confirmDelete('{{ route('fasilitas.destroy', $item->id) }}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -168,7 +167,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="kategori" class="form-label">Kategori</label>
-                        <input type="text" class="form-control" id="kategori" name="kategori" required>
+                        <select class="form-select" id="kategori" name="kategori" required>
+                            <option value="" disabled selected>Pilih Kategori</option>
+                            <option value="Taman">Taman</option>
+                            <option value="Tempat Ibadah">Tempat Ibadah</option>
+                            <option value="Halte Bus">Halte Bus</option>
+                            <option value="Tempat Belanja">Tempat Belanja</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="kecamatan" class="form-label">Kecamatan</label>

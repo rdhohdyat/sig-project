@@ -22,6 +22,4 @@ Route::post('/fasilitas/store', [FasilitasControllerAdmin::class, 'store'])->nam
 Route::put('/fasilitas/{id}', [FasilitasControllerAdmin::class, 'update'])->name('fasilitas.update');
 Route::delete('/fasilitas/{id}', [FasilitasControllerAdmin::class, 'destroy'])->name('fasilitas.destroy');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [FasilitasControllerAdmin::class, 'index'])->name('fasilitas.index');

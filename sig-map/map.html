@@ -15,26 +15,6 @@
   <link rel="stylesheet" href="style.css" />
 
 <body class="sm:overflow-y-hidden">
-  <div class="overlay-container">
-    <label>
-      <input type="checkbox" id="taman" data-category="Taman" checked>
-      Taman
-    </label>
-    <label>
-      <input type="checkbox" id="tempat_ibadah" data-category="Tempat Ibadah" checked>
-      Tempat Ibadah
-    </label>
-    <label>
-      <input type="checkbox" id="tempat_belanja" data-category="Tempat Belanja" checked>
-      Tempat Belanja
-    </label>
-    <label>
-      <input type="checkbox" id="halte_bus" data-category="Halte Bus" checked>
-      Halte Bus
-    </label>
-  </div>
-
-
   <div id="popup" style="position: absolute; background-color: black; padding: 10px; left: 0; z-index: 99999; display: none;">
   <div id="popup-content"></div>
   <h1>Hallo</h1>
@@ -97,6 +77,11 @@
             <h1 class="text-sm font-semibold">Transportasi</h1>
           </div>
         </div>
+        <div id="category_all"
+          class="category_item p-3 border shadow-md rounded-md flex gap-1 flex-col items-center justify-center w-full">
+          <i class='bx bx-building text-3xl'></i>
+          <h1 class="text-sm font-semibold">Semua</h1>
+      </div>
       </div>
 
       <div class="p-5">

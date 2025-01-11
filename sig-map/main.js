@@ -22,9 +22,7 @@ const map = new Map({
   }),
 });
 
-const container = document.getElementById("popup");
 const popupCloser = document.getElementById("popup-closer");
-const popupContent = document.getElementById("popup-content");
 
 // const overlay = new Overlay({
 //   element: container,
@@ -256,9 +254,9 @@ let popupContainer = document.getElementById("test-popup");
 
 const popup = new Overlay({
   element: popupContainer,
-  positioning: "top-center", // Adjust positioning as needed
-  stopEvent: false, // Allow map interaction
-  offset: [0, -10], // Adjust offset based on your needs
+  positioning: "top-center",
+  stopEvent: false,
+  offset: [0, -10],
 });
 
 map.addOverlay(popup);
@@ -287,7 +285,6 @@ map.on("singleclick", function (evt) {
 
     popup.setPosition(coordinates);
   } else {
-    // Hide the popup if no feature was clicked
     popup.setPosition(undefined);
     popupContainer.classList.add("hidden");
   }
@@ -428,7 +425,7 @@ const filterByCategoryKecamatanAndTime = (
       card.className =
         "bg-white shadow-md w-full rounded-lg overflow-hidden transition-transform transform hover:shadow-xl mb-4 cursor-pointer relative";
       card.innerHTML = `
-         <div class="absolute right-2 top-2 font-semibold bg-sky-400 w-8 h-8 rounded-full flex justify-center items-center text-white">${i++}</div>
+        <div class="absolute right-2 top-2 font-semibold bg-sky-400 w-8 h-8 rounded-full flex justify-center items-center text-white">${i++}</div>
         <img src="${item.foto}" class="w-full h-[170px] object-cover" alt="${
         item.nama
       }" />
@@ -500,6 +497,13 @@ document.getElementById("category_transport").addEventListener("click", () => {
   document.getElementById("category_transport").classList.add("active");
   const selectedKecamatan = document.getElementById("kecamatan_options").value;
   filterByCategoryAndKecamatan("Halte Bus", selectedKecamatan);
+});
+
+document.getElementById("category_all").addEventListener("click", () => {
+  removeActiveClass();
+  document.getElementById("category_all").classList.add("active");
+  const selectedKecamatan = document.getElementById("kecamatan_options").value;
+  filterByCategoryAndKecamatan("", selectedKecamatan);
 });
 
 document.getElementById("close-modal").addEventListener("click", () => {
